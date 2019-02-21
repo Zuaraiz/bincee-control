@@ -1,0 +1,104 @@
+@font-face {
+  font-family: 'gotham-black';
+  src: url('/fonts/Gotham-Black.otf') format('opentype');
+}
+@font-face {
+  font-family: 'gotham-black';
+  src: url('/fonts/gotham/Gotham-Black.otf') format('truetype'),
+    url('/fonts/gotham/Gotham-Black.otf') format('opentype');
+}
+@font-face {
+  font-family: 'gotham-bold-italic';
+  src: url('/fonts/GothamBoldItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'gotham-book';
+  src: url('/fonts/GothamBook.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'gotham-book-italic';
+  src: url('/fonts/GothamBookItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'gotham-light';
+  src: url('/fonts/GothamLight.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'gotham-light-italic';
+  src: url('/fonts/GothamLightItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'gotham-medium';
+  src: url('/fonts/GothamMedium_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'gotham-thin';
+  src: url('/fonts/GothamThin.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'gotham-thin-italic';
+  src: url('/fonts/GothamThinItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'gotham-ultra-italic';
+  src: url('/fonts/GothamUltraItalic.ttf') format('truetype');
+}
+
+body {
+  background-color: #f6f6f6;
+}
+
+form {
+  background: #fff;
+  //min-height: 80vh;
+  // box-shadow: -1px 1px 5px -1px #666;
+}
+
+.main {
+  justify-content: center;
+  .wrap {
+    background-image: url(/images/brush.png);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-size: contain;
+  }
+  .text {
+    text-align: center;
+    padding: 9em 0;
+    font-size: 11pt;
+    font-family: sans-serif;
+  }
+  .texter {
+    width: 16em;
+    margin: auto;
+    margin-top: 10px;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar:hover {
+  width: 6px;
+  height: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: none;
+  border-radius: 6px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  width: 6px;
+  // background: #b8e2ee;
+  background: #00c6ff;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #00c6ff;
+}
