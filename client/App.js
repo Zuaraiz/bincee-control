@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import NotificationSystemConnector  from './components/NotificationSystemConnector'
 
 // src
-import app from './components/app'
+import MainDashboard from './components/MainDashboard'
 import Login from './components/Login'
 import theme from '../config/theme'
 import * as styles from './app.less'
@@ -64,7 +64,7 @@ class App extends React.Component {
                   <NotificationSystemConnector />
                   <Switch>
                     <Route exact path="/" component={Login} />
-                    <Route path="/dashboard" component={app} />
+                    <Route path="/dashboard" component={MainDashboard} />
                     {/* <Route component={() => <div>404</div>} /> */}
                     <Redirect to="/dashboard" />
                   </Switch>

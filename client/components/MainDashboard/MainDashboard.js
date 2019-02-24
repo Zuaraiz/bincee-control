@@ -22,7 +22,7 @@ class MainDashboard extends Component {
     const { pathname = '' } = location
     this.state = {
       disabled: false,
-      isLoading: true,
+      isLoading: false,
       user,
       userDetails,
       activePath: parseLocation(pathname),
@@ -33,10 +33,11 @@ class MainDashboard extends Component {
     const { dispatch, user } = this.props
     if (!user.username) {
       dispatch(loadUser())
-    } else {
-      const { id, token } = user
-      dispatch(loadUserDetails({ id, token }))
-    }
+    } 
+    // else {
+    //   const { id, token } = user
+    //   dispatch(loadUserDetails({ id, token }))
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,12 +46,7 @@ class MainDashboard extends Component {
       this.setState(() => ({ user }))
       if (!authenticated) {
         dispatch(push('/'))
-      }
-      if (size(userDetails) < 1) {
-        const { id, token } = user
-        this.setState(() => ({ user, isLoading: true }))
-        dispatch(loadUserDetails({ id, token }))
-      } else {
+      }else {
         this.setState(() => ({ userDetails, isLoading: false }))
       }
     }
@@ -61,18 +57,11 @@ class MainDashboard extends Component {
       this.setState(() => ({ activePath }))
     }
 
-    const { location, userDetails } = nextProps
+    const { location, user } = nextProps
     const { pathname } = location
-    const { lat, lng } = userDetails || {}
 
-    if (size(userDetails) > 1) {
+    if (size(user) > 1) {
       this.setState(() => ({ isLoading: false }))
-    }
-
-    if ((!lat || !lng) && pathname !== '/dashboard/profile') {
-      this.setState(() => ({ disabled: true }))
-    } else {
-      this.setState(() => ({ disabled: false }))
     }
   }
 

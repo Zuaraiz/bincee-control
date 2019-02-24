@@ -11,6 +11,9 @@ import app from './app'
 import user from './user'
 import userDetails from './userDetails'
 import users from './users'
+import drivers from './drivers'
+import parents from './parents'
+import schools from './schools'
 import * as ActionTypes from '../actions'
 import { checkError } from '../utils'
 
@@ -55,6 +58,9 @@ const rootReducer = combineReducers({
   user,
   userDetails,
   users,
+  drivers,
+  parents,
+  schools,
   form: formReducer,
 })
 
