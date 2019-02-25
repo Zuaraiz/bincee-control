@@ -14,6 +14,7 @@ import {
   loadSingleUser,
   sendCredentials,
   showErrorMessage,
+  loadSingleSchool,
 } from '../../actions'
 import SchoolsInner from './SchoolsInner'
 import InfoDrawer from '../InfoDrawer'
@@ -39,10 +40,10 @@ class Schools extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (hasPropChanged(['user', 'drivers'], this.props, nextProps)) {
-      const { dispatch, user, drivers, error } = nextProps
+    if (hasPropChanged(['user', 'schools'], this.props, nextProps)) {
+      const { dispatch, user, schools, error } = nextProps
       const { token } = user
-      if (size(drivers) < 1) {
+      if (size(schools) < 1) {
         this.setState(() => ({ isLoading: true }))
         dispatch(loadSchools({ token })).then(() => {
           this.setState(() => ({ isLoading: false }))
@@ -87,17 +88,17 @@ class Schools extends React.Component {
   }
 
   handleSendCredentials = () => {
-    const { loadedUser, drivers, user, dispatch } = this.props
+    const { loadedUser, schools, user, dispatch } = this.props
     const { id, username, password } = loadedUser
     const { token } = user
-    const { rows } = drivers
-    const { phone_no } = find(({ id: userId }) => id === userId)(rows)
+    const { rows } = schools
+    const { email } = find(({ id: userId }) => id === userId)(rows)
     dispatch(
       sendCredentials({
         username,
         password,
-        email: '',
-        phone_no,
+        email,
+        phone_no: '',
         type: 'School',
         token,
       }),
@@ -114,7 +115,7 @@ class Schools extends React.Component {
 
   handleRowClick = data => {
     const { triggerDrawer, dispatch, user, onDrawerClose } = this.props
-    const { id, fullname, status, photo } = data
+    const { id, address, name, email, phone_no } = data
     const { token } = user
     onDrawerClose()
 
@@ -137,12 +138,12 @@ class Schools extends React.Component {
             password,
             hasCredentials: true,
           },
-          driver: {
+          school: {
             id,
-            fullname,
-            status,
-            photo,
-            isSchool: true,
+            name,
+            address,
+            email,
+            phone_no,
           },
         }
         this.setState(() => ({ isLoading: false }))
@@ -161,8 +162,8 @@ class Schools extends React.Component {
 
   render() {
     const { error, isLoading, createDialog, editDialog, editId } = this.state
-    const { drivers } = this.props
-    const { columns: rows, rows: data } = drivers
+    const { schools } = this.props
+    const { columns: rows, rows: data } = schools
 
     return (
       <SchoolsInner
@@ -184,13 +185,13 @@ class Schools extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const drivers = getOr({}, 'drivers')(state)
+  const schools = getOr({}, 'schools')(state)
   const user = getOr({}, 'user')(state)
   const loadedUser = getOr({}, 'users.loadedUser')(state)
-  const driversList = getOr([], 'drivers')(drivers)
-  const error = getOr('', 'message')(drivers)
-  const transformedSchools = transformData(driversList)
-  return { drivers: transformedSchools, user, error, loadedUser }
+  const schoolList = getOr([], 'schools')(schools)
+  const error = getOr('', 'message')(schools)
+  const transformedSchools = transformData(schoolList)
+  return { schools: transformedSchools, user, error, loadedUser }
 }
 
 const drawerSettings = { style: {} }

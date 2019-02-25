@@ -25,36 +25,41 @@ const baseUrl = getBaseUrl()
 export const createSchool = ({
   username,
   password,
-  fullname,
+  address,
+  name,
   phone_no,
-  status,
-  photo,
+  email,
   token,
 }) => ({
   [CALL_API]: {
     types: [CREATE_SCHOOL, CREATE_SCHOOL_SUCCESS, CREATE_SCHOOL_FAILURE],
-    endpoint: `${baseUrl}/school/driver/create`,
+    endpoint: `${baseUrl}/admin/school/create`,
     method: 'POST',
     token,
   },
-  payload: { username, password, fullname, phone_no, status, photo },
+  payload: { username, password, address, name, phone_no, email },
 })
 
 export const updateSchool = ({
   id,
-  fullname,
+  address,
+  name,
   phone_no,
-  status,
-  photo,
+  email,
   token,
 }) => ({
   [CALL_API]: {
     types: [EDIT_SCHOOL, EDIT_SCHOOL_SUCCESS, EDIT_SCHOOL_FAILURE],
-    endpoint: `${baseUrl}/school/driver/${id}`,
+    endpoint: `${baseUrl}/admin/school/${id}`,
     method: 'POST',
     token,
   },
-  payload: { fullname, phone_no, status, photo },
+  payload: {
+    address,
+    name,
+    phone_no,
+    email,
+  },
 })
 
 export const updateSchoolCredentials = ({ id, username, password, token }) => ({
@@ -78,7 +83,7 @@ export const loadSingleSchool = ({ id, token }) => ({
       LOAD_SINGLE_SCHOOL_SUCCESS,
       LOAD_SINGLE_SCHOOL_FAILURE,
     ],
-    endpoint: `${baseUrl}/school/driver/${id}`,
+    endpoint: `${baseUrl}/admin/school/${id}`,
     method: 'GET',
     token,
   },
@@ -88,7 +93,7 @@ export const loadSingleSchool = ({ id, token }) => ({
 export const deleteSchool = ({ id, token }) => ({
   [CALL_API]: {
     types: [DELETE_SCHOOL, DELETE_SCHOOL_SUCCESS, DELETE_SCHOOL_FAILURE],
-    endpoint: `${baseUrl}/school/driver/${id}`,
+    endpoint: `${baseUrl}/admin/school/${id}`,
     method: 'DELETE',
     token,
   },
@@ -98,7 +103,7 @@ export const deleteSchool = ({ id, token }) => ({
 export const loadSchools = ({ token }) => ({
   [CALL_API]: {
     types: [LOAD_SCHOOLS, LOAD_SCHOOLS_SUCCESS, LOAD_SCHOOLS_FAILURE],
-    endpoint: `${baseUrl}/school/driver/list`,
+    endpoint: `${baseUrl}/admin/school/list`,
     method: 'GET',
     token,
   },

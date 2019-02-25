@@ -8,6 +8,7 @@ export * from './userDetails'
 export * from './drivers'
 export * from './parents'
 export * from './schools'
+export * from './credentials'
 
 export const SHOW_ERROR_MESSAGE = 'SHOW_ERROR_MESSAGE'
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'

@@ -14,6 +14,7 @@ import users from './users'
 import drivers from './drivers'
 import parents from './parents'
 import schools from './schools'
+import credentials from './credentials'
 import * as ActionTypes from '../actions'
 import { checkError } from '../utils'
 
@@ -61,6 +62,7 @@ const rootReducer = combineReducers({
   drivers,
   parents,
   schools,
+  credentials,
   form: formReducer,
 })
 

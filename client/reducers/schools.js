@@ -32,15 +32,15 @@ export default (state = initialState, action) => {
     }
     case ActionTypes.LOAD_SCHOOLS_SUCCESS: {
       const { data } = payload
-      return { ...state, drivers: data, message: '' }
+      return { ...state, schools: data, message: '' }
     }
     case ActionTypes.LOAD_SCHOOLS_FAILURE: {
       return { ...state, message: 'Cannot find School' }
     }
     case ActionTypes.LOAD_SINGLE_SCHOOL_SUCCESS: {
       const { data } = payload
-      const { driver_id } = data
-      return { ...state, [driver_id]: data, message: '' }
+      const { school_id } = data
+      return { ...state, [school_id]: data, message: '' }
     }
     case ActionTypes.LOAD_SINGLE_SCHOOL_FAILURE: {
       return { ...state, message: 'Cannot find School' }

@@ -12,12 +12,10 @@ function getColumns(drivers) {
   const [first] = drivers
   return flow(
     keys,
-    filter(
-      key => key !== 'school_id' && key !== 'driver_id' && key !== 'photo',
-    ),
+    filter(key => key !== 'lat' && key !== 'lng'),
     reduce((final, key) => {
       const current = first[key]
-      const currentKey = key === 'driver_id' ? 'id' : key
+      const currentKey = key === 'school_id' ? 'id' : key
       return [
         ...final,
         {
@@ -33,18 +31,18 @@ function getColumns(drivers) {
 
 function getRows(drivers) {
   return flow(
-    sortBy('driver_id'),
+    sortBy('school_id'),
     map(driver => {
-      return renameKeyName(driver, 'driver_id', 'id')
+      return renameKeyName(driver, 'school_id', 'id')
     }),
   )(drivers)
 }
-export default drivers => {
-  if (size(drivers) < 1) {
+export default schools => {
+  if (size(schools) < 1) {
     return { columns: [], rows: [] }
   }
-  const columns = getColumns(drivers)
-  const rows = getRows(drivers)
+  const columns = getColumns(schools)
+  const rows = getRows(schools)
   return { columns, rows }
 }
 
