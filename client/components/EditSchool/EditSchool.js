@@ -53,10 +53,10 @@ class EditSchool extends React.Component {
   updateSchool = () => {
     const { dispatch, formValues, user, id, onClose } = this.props
     const { token } = user
-    const { fullname, phone_no, email, address, photo } = formValues
+    const { name, phone_no, email, address, photo } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(
-      updateSchool({ id, fullname, phone_no, email, address, photo, token }),
+      updateSchool({ id, name, phone_no, email, address, photo, token }),
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
@@ -78,8 +78,8 @@ class EditSchool extends React.Component {
     dispatch(loadSingleSchool({ id, token })).then(({ payload }) => {
       this.setState(() => ({ isLoading: false }))
       const { data } = payload
-      const { fullname, phone_no, email, address, photo } = data
-      const config = { fullname, phone_no, email, address, photo }
+      const { name, phone_no, email, address, photo } = data
+      const config = { name, phone_no, email, address, photo }
       initialize(config)
     })
   }
@@ -137,18 +137,18 @@ class EditSchool extends React.Component {
             </When>
             <Otherwise>
               <form className={styles.root}>
-                <div className={styles.row}>
+                {/* <div className={styles.row}>
                   <Picture
                     source={photo || '/images/profileSchool.png'}
                     onChange={this.fileChangedHandler}
                   />
-                </div>
+                </div> */}
                 <div className={styles.row}>
                   <Field
-                    id="fullname"
-                    name="fullname"
+                    id="name"
+                    name="name"
                     component={renderTextField}
-                    label="Fullname"
+                    label="Name"
                     disabled={false}
                     variant="outlined"
                     className={styles.item}
@@ -229,7 +229,7 @@ export default connect(mapStateToProps)(
     form: 'editSchool',
     validate,
     initialValues: {
-      fullname: '',
+      name: '',
       phone_no: '',
       email:'',
       address: '',

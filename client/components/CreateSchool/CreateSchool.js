@@ -52,15 +52,15 @@ class CreateSchool extends React.Component {
   createSchool = () => {
     const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
-    const username = uniqueId(`${snakeCase(formValues.fullname)}d`)
+    const username = uniqueId(`${snakeCase(formValues.name)}d`)
     const password = uniqueId('ChangeMe@')
-    const { fullname, phone_no, email, address, photo } = formValues
+    const { name, phone_no, email, address, photo } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(
       createSchool({
         username,
         password,
-        fullname,
+        name,
         phone_no,
         email,
         address,
@@ -83,7 +83,7 @@ class CreateSchool extends React.Component {
   onEnter = () => {
     const { initialize } = this.props
     const config = {
-      fullname: '',
+      name: '',
       phone_no: '',
       email : '',
       address: '',
@@ -91,34 +91,6 @@ class CreateSchool extends React.Component {
     }
     this.setState(() => ({ isLoading: false }))
     initialize(config)
-  }
-
-  fileChangedHandler = event => {
-    const [selectedFile] = event.target.files
-    if (selectedFile) {
-      const { dispatch, user } = this.props
-      const { token } = user
-      const formData = new FormData()
-      formData.append('image', selectedFile)
-      formData.append('name', selectedFile.name)
-      this.setState(() => ({ isLoading: true }))
-      dispatch(
-        uploadImage({
-          id: 1,
-          user: 'driver',
-          image: formData,
-          token,
-        }),
-      ).then(({ payload }) => {
-        const { status, data } = payload
-        this.setState(() => ({ isLoading: false }))
-        if (status === 200) {
-          const { path } = data
-          const { formValues, initialize } = this.props
-          initialize({ ...formValues, photo: path })
-        }
-      })
-    }
   }
 
   render() {
@@ -147,17 +119,11 @@ class CreateSchool extends React.Component {
             <Otherwise>
               <form className={styles.root}>
                 <div className={styles.row}>
-                  <Picture
-                    source={photo || '/images/profileSchool.png'}
-                    onChange={this.fileChangedHandler}
-                  />
-                </div>
-                <div className={styles.row}>
                   <Field
-                    id="fullname"
-                    name="fullname"
+                    id="name"
+                    name="name"
                     component={renderTextField}
-                    label="Fullname"
+                    label="Name"
                     disabled={false}
                     variant="outlined"
                     className={styles.item}
@@ -239,7 +205,7 @@ export default connect(mapStateToProps)(
     form: 'createSchool',
     validate,
     initialValues: {
-      fullname: '',
+      name: '',
       phone_no: '',
       email:'',
       address: '',
