@@ -53,10 +53,10 @@ class EditSchool extends React.Component {
   updateSchool = () => {
     const { dispatch, formValues, user, id, onClose } = this.props
     const { token } = user
-    const { name, phone_no, email, address, photo } = formValues
+    const { name, phone_no, email, address, licenses } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(
-      updateSchool({ id, name, phone_no, email, address, photo, token }),
+      updateSchool({ id, name, phone_no, email, address, licenses, token }),
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
@@ -78,45 +78,15 @@ class EditSchool extends React.Component {
     dispatch(loadSingleSchool({ id, token })).then(({ payload }) => {
       this.setState(() => ({ isLoading: false }))
       const { data } = payload
-      const { name, phone_no, email, address, photo } = data
-      const config = { name, phone_no, email, address, photo }
+      const { name, phone_no, email, address, licenses } = data
+      const config = { name, phone_no, email, address, licenses }
       initialize(config)
     })
-  }
-
-  fileChangedHandler = event => {
-    const [selectedFile] = event.target.files
-    if (selectedFile) {
-      const { dispatch, user } = this.props
-      const { token } = user
-      const formData = new FormData()
-      formData.append('image', selectedFile)
-      formData.append('name', selectedFile.name)
-      this.setState(() => ({ isLoading: true }))
-      dispatch(
-        uploadImage({
-          id: 1,
-          user: 'driver',
-          image: formData,
-          token,
-        }),
-      ).then(({ payload }) => {
-        const { status, data } = payload
-
-        this.setState(() => ({ isLoading: false }))
-        if (status === 200) {
-          const { path } = data
-          const { formValues, initialize } = this.props
-          initialize({ ...formValues, photo: path })
-        }
-      })
-    }
   }
 
   render() {
     const { disabled, isLoading } = this.state
     const { classes, onClose, formValues, ...other } = this.props
-    const { photo } = formValues || {}
     return (
       <Dialog
         onClose={onClose}
@@ -177,6 +147,19 @@ class EditSchool extends React.Component {
                   />
                 </div>
                 <div className={styles.row}>
+                  <Field
+                    parse={value => Number(value)}
+                    id="licenses"
+                    name="licenses"
+                    type="number"
+                    component={renderTextField}
+                    label="Licenses"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                  />
+                </div>
+                <div className={styles.row}>
                   <div className={styles.item}>
                     <Button
                       disabled={disabled}
@@ -223,6 +206,7 @@ export default connect(mapStateToProps)(
       email: '',
       address: '',
       photo: '',
+      licenses: 0,
     },
   })(EditSchool),
 )

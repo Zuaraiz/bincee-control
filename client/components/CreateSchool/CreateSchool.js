@@ -52,7 +52,7 @@ class CreateSchool extends React.Component {
   createSchool = () => {
     const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
-    const { name, phone_no, email, address, photo } = formValues
+    const { name, phone_no, email, address, licenses } = formValues
     const username = email
     const password = uniqueId('ChangeMe@')
     this.setState(() => ({ isLoading: true }))
@@ -64,7 +64,7 @@ class CreateSchool extends React.Component {
         phone_no,
         email,
         address,
-        photo,
+        licenses,
         token,
       }),
     ).then(({ payload }) => {
@@ -87,7 +87,7 @@ class CreateSchool extends React.Component {
       phone_no: '',
       email: '',
       address: '',
-      photo: '',
+      licenses: 0,
     }
     this.setState(() => ({ isLoading: false }))
     initialize(config)
@@ -97,7 +97,6 @@ class CreateSchool extends React.Component {
     // TODO: Change file upload control
     const { disabled, isLoading } = this.state
     const { classes, onClose, formValues, ...other } = this.props
-    const { photo } = formValues || {}
     return (
       <Dialog
         onClose={onClose}
@@ -153,6 +152,19 @@ class CreateSchool extends React.Component {
                   />
                 </div>
                 <div className={styles.row}>
+                  <Field
+                    parse={value => Number(value)}
+                    id="licenses"
+                    name="licenses"
+                    type="number"
+                    component={renderTextField}
+                    label="Licenses"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                  />
+                </div>
+                <div className={styles.row}>
                   <div className={styles.item}>
                     <Button
                       disabled={disabled}
@@ -199,6 +211,7 @@ export default connect(mapStateToProps)(
       email: '',
       address: '',
       photo: '',
+      licenses: 0,
     },
   })(CreateSchool),
 )

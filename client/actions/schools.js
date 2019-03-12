@@ -29,6 +29,7 @@ export const createSchool = ({
   name,
   phone_no,
   email,
+  licenses,
   token,
 }) => ({
   [CALL_API]: {
@@ -45,6 +46,7 @@ export const updateSchool = ({
   address,
   name,
   phone_no,
+  licenses,
   email,
   token,
 }) => ({
