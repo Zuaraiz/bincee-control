@@ -52,9 +52,9 @@ class CreateSchool extends React.Component {
   createSchool = () => {
     const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
-    const username = uniqueId(`${snakeCase(formValues.name)}d`)
-    const password = uniqueId('ChangeMe@')
     const { name, phone_no, email, address, photo } = formValues
+    const username = email
+    const password = uniqueId('ChangeMe@')
     this.setState(() => ({ isLoading: true }))
     dispatch(
       createSchool({
@@ -85,7 +85,7 @@ class CreateSchool extends React.Component {
     const config = {
       name: '',
       phone_no: '',
-      email : '',
+      email: '',
       address: '',
       photo: '',
     }
@@ -207,7 +207,7 @@ export default connect(mapStateToProps)(
     initialValues: {
       name: '',
       phone_no: '',
-      email:'',
+      email: '',
       address: '',
       photo: '',
     },
