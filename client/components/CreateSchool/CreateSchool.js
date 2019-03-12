@@ -153,17 +153,6 @@ class CreateSchool extends React.Component {
                   />
                 </div>
                 <div className={styles.row}>
-                  <Field
-                    id="address"
-                    name="address"
-                    component={renderTextField}
-                    label="Address"
-                    disabled={false}
-                    variant="outlined"
-                    className={styles.item}
-                  />
-                </div>
-                <div className={styles.row}>
                   <div className={styles.item}>
                     <Button
                       disabled={disabled}

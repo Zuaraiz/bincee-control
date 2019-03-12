@@ -12,7 +12,13 @@ function getColumns(drivers) {
   const [first] = drivers
   return flow(
     keys,
-    filter(key => key !== 'lat' && key !== 'lng'),
+    filter(
+      key =>
+        key !== 'lat' &&
+        key !== 'lng' &&
+        key !== 'school_id' &&
+        key !== 'address',
+    ),
     reduce((final, key) => {
       const current = first[key]
       const currentKey = key === 'school_id' ? 'id' : key
