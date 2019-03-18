@@ -38,7 +38,15 @@ export const createSchool = ({
     method: 'POST',
     token,
   },
-  payload: { username, password, address, name, phone_no, email },
+  payload: {
+    username,
+    password,
+    address,
+    name,
+    phone_no,
+    email,
+    licenses,
+  },
 })
 
 export const updateSchool = ({
@@ -61,6 +69,7 @@ export const updateSchool = ({
     name,
     phone_no,
     email,
+    licenses,
   },
 })
 
