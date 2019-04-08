@@ -30,4 +30,4 @@ export const makeLogContextString = req => {
 export const stringEndsWith = (str, suffix) =>
   str.indexOf(suffix, str.length - suffix.length) !== -1
 
-export const getPort = () => (isProduction() ? process.env.PORT : 5000)
+export const getPort = () => (isProduction() ? 5000 : 5000)
