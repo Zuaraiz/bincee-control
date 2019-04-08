@@ -4,13 +4,13 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { Provider } from 'react-redux'
 // src
-import NotificationSystemConnector  from './components/NotificationSystemConnector'
+import NotificationSystemConnector from './components/NotificationSystemConnector'
 
 // src
 import MainDashboard from './components/MainDashboard'
 import Login from './components/Login'
 import theme from '../config/theme'
-import * as styles from './app.less'
+import * as styles from './App.less'
 
 // Add appropriate types check for store, routerProps and Router
 type Props = {

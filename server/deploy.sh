@@ -9,6 +9,6 @@ forever stop control
 
 echo "3/7) Starting node process ..."
 sudo lsof -t -i tcp:5000 -s tcp:listen | sudo xargs kill
-NODE_ENV=production CONFIG=production forever start --uid "control" --append -c "node server/dist/build.js" .
+NODE_ENV=production CONFIG=production forever start --uid "control" -a -c node server/dist/build.js
 
 echo "Deployment complete"
