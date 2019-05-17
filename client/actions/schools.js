@@ -30,6 +30,10 @@ export const createSchool = ({
   phone_no,
   email,
   licenses,
+  fleetLicenses,
+  trial,
+  trialDays = null,
+  trialDate = null,
   token,
 }) => ({
   [CALL_API]: {
@@ -46,6 +50,10 @@ export const createSchool = ({
     phone_no,
     email,
     licenses,
+    fleetLicenses,
+    trial,
+    trialDays,
+    trialDate,
   },
 })
 
@@ -55,6 +63,10 @@ export const updateSchool = ({
   name,
   phone_no,
   licenses,
+  fleetLicenses,
+  trial,
+  trialDays = null,
+  trialDate = null,
   email,
   token,
 }) => ({
@@ -70,6 +82,10 @@ export const updateSchool = ({
     phone_no,
     email,
     licenses,
+    fleetLicenses,
+    trial,
+    trialDays,
+    trialDate,
   },
 })
 

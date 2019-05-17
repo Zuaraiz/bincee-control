@@ -3,30 +3,20 @@ import React from 'react'
 import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Radio from '@material-ui/core/Radio'
 import size from 'lodash/fp/size'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
+import moment from 'moment'
 
 // src
-import {
-  renderTextField,
-  renderRadioGroup,
-} from '../shared/reduxFormMaterialUI'
+import { renderTextField, renderSwitch } from '../shared/reduxFormMaterialUI'
 import styles from './EditSchool.less'
-import {
-  loadSingleSchool,
-  updateSchool,
-  showErrorMessage,
-  uploadImage,
-} from '../../actions'
+import { loadSingleSchool, updateSchool, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
-import Picture from '../Picture'
 
 class EditSchool extends React.Component {
   constructor(props) {
@@ -53,10 +43,32 @@ class EditSchool extends React.Component {
   updateSchool = () => {
     const { dispatch, formValues, user, id, onClose } = this.props
     const { token } = user
-    const { name, phone_no, email, address, licenses } = formValues
+    const {
+      name,
+      phone_no,
+      email,
+      address,
+      licenses,
+      fleetLicenses,
+      trial,
+      trialDays,
+      trialDate,
+    } = formValues
     this.setState(() => ({ isLoading: true }))
     dispatch(
-      updateSchool({ id, name, phone_no, email, address, licenses, token }),
+      updateSchool({
+        id,
+        name,
+        phone_no,
+        email,
+        address,
+        licenses,
+        token,
+        fleetLicenses,
+        trial,
+        trialDays,
+        trialDate,
+      }),
     ).then(({ payload }) => {
       const { status: requestStatus } = payload
       if (requestStatus === 200) {
@@ -78,8 +90,28 @@ class EditSchool extends React.Component {
     dispatch(loadSingleSchool({ id, token })).then(({ payload }) => {
       this.setState(() => ({ isLoading: false }))
       const { data } = payload
-      const { name, phone_no, email, address, licenses } = data
-      const config = { name, phone_no, email, address, licenses }
+      const {
+        name,
+        phone_no,
+        email,
+        address,
+        licenses,
+        fleetLicenses = 0,
+        trial = false,
+        trialDays = 0,
+        trialDate = moment().format('YYYY-MM-DD'),
+      } = data
+      const config = {
+        name,
+        phone_no,
+        email,
+        address,
+        licenses,
+        fleetLicenses,
+        trial,
+        trialDays,
+        trialDate,
+      }
       initialize(config)
     })
   }
@@ -87,6 +119,7 @@ class EditSchool extends React.Component {
   render() {
     const { disabled, isLoading } = this.state
     const { classes, onClose, formValues, ...other } = this.props
+    const { trial = false } = formValues || {}
     return (
       <Dialog
         onClose={onClose}
@@ -160,6 +193,58 @@ class EditSchool extends React.Component {
                   />
                 </div>
                 <div className={styles.row}>
+                  <Field
+                    parse={value => Number(value)}
+                    id="fleetLicenses"
+                    name="fleetLicenses"
+                    type="number"
+                    component={renderTextField}
+                    label="Fleet Licenses"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                  />
+                </div>
+                <div className={styles.row}>
+                  <label className={styles.switchLabel}>Enable Trial</label>
+                  <Field
+                    name="trial"
+                    component={renderSwitch}
+                    label=""
+                    toolTip="EnableTrial"
+                  />
+                </div>
+                {trial && (
+                  <React.Fragment>
+                    <div className={styles.row}>
+                      <Field
+                        parse={value => Number(value)}
+                        id="trialDays"
+                        name="trialDays"
+                        type="number"
+                        component={renderTextField}
+                        label="Trial Days"
+                        variant="outlined"
+                        className={styles.item}
+                      />
+                    </div>
+                    <div className={styles.row}>
+                      <Field
+                        id="trialDate"
+                        name="trialDate"
+                        component={renderTextField}
+                        label="Trial Start Date"
+                        variant="outlined"
+                        className={styles.item}
+                        type="date"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                    </div>
+                  </React.Fragment>
+                )}
+                <div className={styles.row}>
                   <div className={styles.item}>
                     <Button
                       disabled={disabled}
@@ -207,6 +292,10 @@ export default connect(mapStateToProps)(
       address: '',
       photo: '',
       licenses: 0,
+      fleetLicenses: 0,
+      trial: false,
+      trialDays: 0,
+      trialDate: moment().format('YYYY-MM-DD'),
     },
   })(EditSchool),
 )

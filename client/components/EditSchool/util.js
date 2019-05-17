@@ -5,7 +5,7 @@ const emailRegex = /^$|^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+
 
 export const validate = values => {
   const errors = {}
-  const { name, phone_no, email, licenses } = values
+  const { name, phone_no, email, licenses, trialDate } = values
   if (!trim(name)) {
     errors.name = 'Required'
   }
@@ -17,6 +17,9 @@ export const validate = values => {
   }
   if (!trim(licenses)) {
     errors.licenses = 'Required'
+  }
+  if (!trim(trialDate)) {
+    errors.trialDate = 'Required'
   }
   if (!phoneRegex.test(phone_no)) {
     errors.phone_no = 'Invalid Phone Number (i.e +XXX...)'

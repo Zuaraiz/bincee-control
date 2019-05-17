@@ -4,28 +4,20 @@ import { Field, getFormValues, getFormSyncErrors, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import getOr from 'lodash/fp/getOr'
 import uniqueId from 'lodash/fp/uniqueId'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Radio from '@material-ui/core/Radio'
 import size from 'lodash/fp/size'
-import snakeCase from 'lodash/snakeCase'
-import trim from 'lodash/trim'
-import FormData from 'form-data'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
+import moment from 'moment'
 
 // src
-import {
-  renderTextField,
-  renderRadioGroup,
-} from '../shared/reduxFormMaterialUI'
+import { renderTextField, renderSwitch } from '../shared/reduxFormMaterialUI'
 import styles from './CreateSchool.less'
-import { createSchool, uploadImage, showErrorMessage } from '../../actions'
+import { createSchool, showErrorMessage } from '../../actions'
 import { hasPropChanged } from '../../utils'
 import LoadingView from '../LoadingView'
 import { validate } from './util'
 import Button from '../Button'
-import Picture from '../Picture'
 
 class CreateSchool extends React.Component {
   constructor(props) {
@@ -52,7 +44,17 @@ class CreateSchool extends React.Component {
   createSchool = () => {
     const { dispatch, formValues, user, onClose } = this.props
     const { token } = user
-    const { name, phone_no, email, address, licenses } = formValues
+    const {
+      name,
+      phone_no,
+      email,
+      address,
+      licenses,
+      fleetLicenses,
+      trial,
+      trialDays,
+      trialDate,
+    } = formValues
     const username = email
     const password = uniqueId('ChangeMe@')
     this.setState(() => ({ isLoading: true }))
@@ -65,6 +67,10 @@ class CreateSchool extends React.Component {
         email,
         address,
         licenses,
+        fleetLicenses,
+        trial,
+        trialDays,
+        trialDate,
         token,
       }),
     ).then(({ payload }) => {
@@ -88,6 +94,10 @@ class CreateSchool extends React.Component {
       email: '',
       address: '',
       licenses: 0,
+      fleetLicenses: 0,
+      trial: false,
+      trialDays: 0,
+      trialDate: moment().format('YYYY-MM-DD'),
     }
     this.setState(() => ({ isLoading: false }))
     initialize(config)
@@ -97,6 +107,7 @@ class CreateSchool extends React.Component {
     // TODO: Change file upload control
     const { disabled, isLoading } = this.state
     const { classes, onClose, formValues, ...other } = this.props
+    const { trial = false } = formValues || {}
     return (
       <Dialog
         onClose={onClose}
@@ -165,6 +176,58 @@ class CreateSchool extends React.Component {
                   />
                 </div>
                 <div className={styles.row}>
+                  <Field
+                    parse={value => Number(value)}
+                    id="fleetLicenses"
+                    name="fleetLicenses"
+                    type="number"
+                    component={renderTextField}
+                    label="Fleet Licenses"
+                    disabled={false}
+                    variant="outlined"
+                    className={styles.item}
+                  />
+                </div>
+                <div className={styles.row}>
+                  <label className={styles.switchLabel}>Enable Trial</label>
+                  <Field
+                    name="trial"
+                    component={renderSwitch}
+                    label=""
+                    toolTip="EnableTrial"
+                  />
+                </div>
+                {trial && (
+                  <React.Fragment>
+                    <div className={styles.row}>
+                      <Field
+                        parse={value => Number(value)}
+                        id="trialDays"
+                        name="trialDays"
+                        type="number"
+                        component={renderTextField}
+                        label="Trial Days"
+                        variant="outlined"
+                        className={styles.item}
+                      />
+                    </div>
+                    <div className={styles.row}>
+                      <Field
+                        id="trialDate"
+                        name="trialDate"
+                        component={renderTextField}
+                        label="Trial Start Date"
+                        variant="outlined"
+                        className={styles.item}
+                        type="date"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                    </div>
+                  </React.Fragment>
+                )}
+                <div className={styles.row}>
                   <div className={styles.item}>
                     <Button
                       disabled={disabled}
@@ -212,6 +275,10 @@ export default connect(mapStateToProps)(
       address: '',
       photo: '',
       licenses: 0,
+      fleetLicenses: 0,
+      trial: false,
+      trialDays: 0,
+      trialDate: moment().format('YYYY-MM-DD'),
     },
   })(CreateSchool),
 )
